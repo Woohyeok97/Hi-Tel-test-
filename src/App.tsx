@@ -1,10 +1,14 @@
+import { useState } from "react";
+// components
+import Router from "Router";
+
+
 
 function App() {
+    const [ isAuthenticated, setIsAuthenticated ] = useState<boolean>(true)
 
     return (
-        <div className="App">
-        ㅎㅇ
-        </div>
+            <Router isAuthenticated={ isAuthenticated }/>
     );
 }
 
