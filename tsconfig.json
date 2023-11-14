@@ -27,6 +27,7 @@
   "paths" : {
     "pages/*" : ["pages/*"],
     "components/*" : ["components/*"],
-    "interface/*" : ["interface/*"]
+    "interface/*" : ["interface/*"],
+    "font/*" : ["font/*"],
   }
 }
