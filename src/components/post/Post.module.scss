@@ -1,0 +1,44 @@
+@import './utils';
+
+// post-form
+.postForm {
+
+    &__header {
+        font-size: $font4;
+        text-align: center;
+        margin: 20px 0;
+    }
+    &__block {
+        padding: 10px 0;
+        // border-bottom: $defaultBorder;
+    }
+    textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 10px;
+        box-sizing: border-box;
+        font-size: $font1;
+        color: $fontColor;
+        background-color: $bgColor;
+    }
+    &__input {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        font-size: $font1;
+        color: $fontColor;
+        background-color: $bgColor;
+    }
+    &__hashTag {
+        padding: 10px;
+        margin-right: 10px;
+        border: 2px solid rgba(0, 0, 255, 1);
+        border-radius: 10px;
+    }
+
+
+    &__btn {
+        padding : 20px;
+        @extend .shadow;
+    }
+}

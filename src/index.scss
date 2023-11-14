@@ -2,17 +2,63 @@
 
 @import './utils';
 
-
 body {
   margin: 0;
   background-color: $bgColor;
   color: $fontColor;
-  font-family: 'DungGeunMo', sans-serif;
+  font-size: 1.5rem;
+  font-family: $defaultFont;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+textarea {
+    font-family: $defaultFont;
+    border: none;
+    resize: none;
+    // outline: none;
 }
+
+input {
+    font-family: $defaultFont;
+    border: none;
+}
+
+.shadow {
+    border-top: 3px solid rgba(0, 0, 255, 1);
+    border-bottom: 5px solid #000000;
+    border-right: 5px solid #000000;
+    border-left: 3px solid rgba(0, 0, 255, 1);
+}
+
+
+// page
+.page {
+
+    &__title {
+        padding: 20px;
+        @extend .shadow;
+    }
+    &__header {
+        font-size: $font4;
+        text-align: center;
+    }
+    &__tabs {
+        display: flex;
+        gap: 10px; 
+    }
+    &__tab {
+        width: 100%;
+        padding: 20px;
+        color: $bgColor;
+        background-color: $fontColor;
+        font-size: $font2;
+        text-align: center;
+        cursor: pointer;
+
+        &--active {
+            @extend .shadow;
+        }
+    }
+}
+
