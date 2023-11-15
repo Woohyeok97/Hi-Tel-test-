@@ -1,19 +1,24 @@
-// components
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+import { app } from "firebaseApp"
 
 export default function LoginPage() {
     const [ email, setEmail ] = useState<string>('')
     const [ password, setPassword ] = useState<string>('')
-
+    const navigate = useNavigate()
     // 가입요청 핸들러
-    const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
-            
-        } catch(err : any) {
+            const auth = getAuth(app)
+            await signInWithEmailAndPassword(auth, email, password)
 
+            navigate('/')
+            console.log('접속하셨습니다.')
+        } catch(err : any) {
+            console.log(err?.code)
         }
     }
 

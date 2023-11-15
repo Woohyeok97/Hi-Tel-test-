@@ -14,7 +14,7 @@ interface RouterProps {
 }
 
 export default function Router({ isAuthenticated } : RouterProps) {
-
+    console.log(isAuthenticated)
     return (
         <Routes>
             <Route path="/" element={ <HomePage/> }/>
@@ -27,7 +27,7 @@ export default function Router({ isAuthenticated } : RouterProps) {
             </> }
             
             {/* 나중에 부정으로 수정하기 */}
-            { isAuthenticated && <>
+            { !isAuthenticated && <>
                 <Route path="/users/login" element={ <LoginPage/> }/>
                 <Route path="/users/signup" element={ <SignupPage/> }/>
             </> }

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-// components
+import { Link, useNavigate } from "react-router-dom";
+import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, signInWithPopup } from "firebase/auth";
+import { app } from "firebaseApp";
 
 
 export default function SignupPage() {
@@ -9,18 +10,48 @@ export default function SignupPage() {
     const [ passwordConfirm, setPasswordConfirm ] = useState<string>('')
     // 에러메시지 상태관리
     const [ errMessage, setErrMessage ] = useState<string>('')
+    const navigate = useNavigate()
 
     // 가입요청 핸들러
-    const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        
         try {
+            const auth = getAuth(app)
+            await createUserWithEmailAndPassword(auth, email, password)
+
+            navigate('/')
+            console.log('신규가입을 환영합니다.')
             
         } catch(err : any) {
-
+            console.log(err?.code)
         }
     }
 
+    // 소셜로그인 핸들러
+    const handleSocialLogin = async (e : any) => {
+        const { name } = e?.target;
+
+        try {
+            const auth = getAuth(app);
+            let provider;
+
+            if(name === 'google') {
+                provider = new GoogleAuthProvider();
+            }
+            if(name === 'github') {
+                provider = new GithubAuthProvider();
+            }
+            // signInWithPopup()으로 소셜로그인
+            await signInWithPopup(auth, provider as GoogleAuthProvider | GithubAuthProvider)
+
+            navigate('/')
+            console.log('신규가입을 환영합니다.')
+
+        } catch(err : any) {
+            console.log(err?.code)
+        }
+    }
 
     // 폼데이터 핸들러
     const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
@@ -113,7 +144,19 @@ export default function SignupPage() {
 
                 <input type="submit" value="신규가입 요청" className="form__input-btn"
                     // 에러메시지가 있거나, 폼데이터값 중에 미입력이 있으면 비활성화
-                    disabled={ !!errMessage || (!email || !password || !passwordConfirm) }/>
+                    disabled={ !!errMessage || (!email || !password || !passwordConfirm) }
+                />
+
+                {/* 구글 로그인 */}
+                <button name="google" className="form__btn form__btn-google"
+                    onClick={ handleSocialLogin }>
+                    구글로 시작하기
+                </button>
+                {/* 깃헙 로그인 */}
+                <button name="github" className="form__btn form__btn-github"
+                    onClick={ handleSocialLogin }>
+                    깃허브로 시작하기
+                </button>
 
                 <div className="form__block">
                     <Link to="/users/login" className="form__link">
