@@ -1,7 +1,10 @@
-import FollowBtn from 'components/followBtn/FollowBtn'
 import styles from './Post.module.scss'
+import { Link } from 'react-router-dom'
+// components
+import FollowBtn from 'components/followBtn/FollowBtn'
 // 데이터 타입
 import { PostType } from "interface"
+
 
 interface PostItemProps {
     post : PostType
@@ -26,7 +29,9 @@ export default function PostItem({ post } : PostItemProps) {
                 <FollowBtn/>
             </div>
 
-            <div className={ styles.post__content }>{ post?.content }</div>
+            <Link to={`/post/detail/${post?.id}`}>
+                <div className={ styles.post__content }>{ post?.content }</div>
+            </Link>
 
             <div className={ styles.post__footer }>
                 <div className={ styles.post__flex }>

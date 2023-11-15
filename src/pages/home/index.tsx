@@ -1,5 +1,8 @@
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import AuthContext from "context/AuthContext"
 import { Link } from "react-router-dom"
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore"
+import { db } from "firebaseApp"
 // components
 import PostForm from "components/post/PostForm"
 import PostItem from "components/post/PostItem"
@@ -7,30 +10,30 @@ import PostItem from "components/post/PostItem"
 import { PostType } from "interface"
 
 
-const tempList = [
-    {
-        id : '1',
-        uid : '11',
-        createdAt : '1997년 어느날',
-        content : '한국은 4강을 갑니까?'
-    },
-    {
-        id : '2',
-        uid : '21',
-        createdAt : '1997년 어느날',
-        content : '한국은 4강을 갑니까?'
-    },
-    {
-        id : '3',
-        uid : '31',
-        createdAt : '1997년 어느날',
-        content : '한국은 4강을 갑니까?'
-    }
-]
+
+type TabType = 'all' | 'following'
 
 export default function HomePage() {
-    const [ postList, setPostList ] = useState<PostType[]>(tempList)
-    const [ test, setT ] = useState(false)
+    const { user } = useContext(AuthContext)
+    const [ activeTab, setActiveTab ] = useState<TabType>('all')
+    const [ postList, setPostList ] = useState<PostType[]>([])
+
+    // firestore에서 게시물리스트 가져오기
+    const fetchPostList = () => {
+        const postListRef = collection(db, 'posts');
+        // 게시물을 최신순으로 가져오기 위해 query사용 
+        const postListQuery = query(postListRef, orderBy('createdAt', 'desc'));
+        
+        // onSnapshot으로 실시간 리스너 부착
+        onSnapshot(postListQuery, (snpashot) => {
+            const resut = snpashot.docs.map((doc) => ({ id : doc?.id, ...doc?.data() }))
+            setPostList(resut as PostType[])
+        })
+    }
+
+    useEffect(() => {
+        fetchPostList()
+    }, [activeTab])
 
     return (
         <div className="page">
@@ -38,18 +41,17 @@ export default function HomePage() {
             <PostForm/>
 
             <div className="page__header">[ 게 / 시 / 물 / 광 / 장 ]</div>
+
             <div className="page__tabs">
-                <div className={`page__tab ${ test ? 'page__tab--active' : '' }`}
-                onClick={()=>{ setT((prev) => !prev) }}>{ test && '>' } 전체글</div>
-                <div className="page__tab">팔로윙</div>
+                <div className={`page__tab ${ activeTab === 'all' && 'page__tab--active' }`}
+                    onClick={()=>{ setActiveTab('all') }}>전체글</div>
+                <div className={`page__tab ${ activeTab === 'following' && 'page__tab--active' }`}
+                    onClick={()=>{ setActiveTab('following') }}>팔로윙</div>
             </div>
             
-
+            {/* 게시물 */}
             <div className="page__">
-                { postList?.map((item) => 
-                <Link to={`/post/detail/${item?.id}`} key={item?.uid}>
-                    <PostItem post={ item }/>
-                </Link> )}
+                { postList?.map((item) => <PostItem post={ item } key={item?.id}/> )}
             </div>
         </div>
     )

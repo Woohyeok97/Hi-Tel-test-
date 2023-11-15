@@ -4,9 +4,7 @@ import AuthContext from 'context/AuthContext'
 import { db } from 'firebaseApp'
 import { addDoc, collection } from 'firebase/firestore'
 
-
-
-export default function PostForm() {
+export default function PostEditForm() {
     const { user } = useContext(AuthContext)
     // 여러번 클릭방지 상태
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>(false)
@@ -101,7 +99,7 @@ export default function PostForm() {
         }
     }
 
-    
+
     return (
         <form onSubmit={ handleSubmit } className={ styles.postForm }>
             <div className={ styles.postForm__header }>[ 게 / 시 / 물 / 작 / 성 ]</div>

@@ -56,7 +56,6 @@
     padding : 20px;
     margin: 20px 0;
     border: $defaultBorder;
-    cursor: pointer;
     
     &__header {
         display: flex;
@@ -87,6 +86,7 @@
     &__content {
         padding: 30px 0;
         border-bottom: $defaultBorder;
+        cursor: pointer;
     }
 
     &__footer {
