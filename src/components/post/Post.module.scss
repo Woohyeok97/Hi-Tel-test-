@@ -9,8 +9,13 @@
         margin: 20px 0;
     }
     &__block {
-        padding: 10px 0;
+        // border: $defaultBorder;
+        // padding: 10px 0;
         // border-bottom: $defaultBorder;
+    }
+    &__flex {
+        display: flex;
+        gap: 10px;
     }
     textarea {
         width: 100%;
@@ -20,6 +25,8 @@
         font-size: $font1;
         color: $fontColor;
         background-color: $bgColor;
+        // border: $defaultBorder;
+        
     }
     &__input {
         width: 100%;
@@ -29,16 +36,72 @@
         color: $fontColor;
         background-color: $bgColor;
     }
-    &__hashTag {
-        padding: 10px;
-        margin-right: 10px;
-        border: 2px solid rgba(0, 0, 255, 1);
-        border-radius: 10px;
-    }
+    // &__hashTag {
+    //     padding: 10px;
+    //     margin-right: 10px;
+    //     border: 2px solid rgba(0, 0, 255, 1);
+    //     border-radius: 10px;
+    // }
 
 
     &__btn {
         padding : 20px;
         @extend .shadow;
+    }
+}
+
+
+// post-item 
+.post {
+    padding : 20px;
+    margin: 20px 0;
+    border: $defaultBorder;
+    cursor: pointer;
+    
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding-bottom: 20px;
+        border-bottom: $defaultBorder;
+    }
+
+    &__flex {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    &__userImg {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: $fontColor;
+    }
+    &__userName {
+
+    }
+    &__createdAt {
+
+    }
+    &__content {
+        padding: 30px 0;
+        border-bottom: $defaultBorder;
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 20px;
+    }
+    &__hashTag {
+        // padding: 10px;
+        // box-sizing: border-box;
+        // margin-right: 10px;
+        // border: 2px solid rgba(0, 0, 255, 1);
+        // border-radius: 10px;
+    }
+    &__utils {
+        display: flex;
     }
 }

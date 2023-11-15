@@ -12,7 +12,6 @@ export default function PostForm() {
     const [ hashTagList, setHashTagList ] = useState<string[]>([])
     
 
-
     // submit 핸들러
     const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
         setIsSubmitting(true)
@@ -64,7 +63,7 @@ export default function PostForm() {
     
     return (
         <form onSubmit={ handleSubmit } className={ styles.postForm }>
-            <div className={ styles.postForm__header }>게 / 시 / 물 / 작 / 성</div>
+            <div className={ styles.postForm__header }>[ 게 / 시 / 물 / 작 / 성 ]</div>
 
             <div className={ styles.postForm__block }>
                 <textarea 
@@ -74,14 +73,13 @@ export default function PostForm() {
                     placeholder="> 내용을 입력해주세요."
                 />
             </div>
-
+            
             <div className={ styles.postForm__block }>
-                { hashTagList?.length > 0 && hashTagList?.map((item) => 
-                <span key={item} id={item} className={ styles.postForm__hashTag }
-                onClick={ handleRemoveHashTag }>#{ item }</span>) }
-            </div>
-
-            <div className={ styles.postForm__block }>
+                <div className={ styles.postForm__flex }>
+                    { hashTagList?.length > 0 && hashTagList?.map((item) => 
+                    <span key={item} id={item} className={ styles.postForm__hashTag }
+                    onClick={ handleRemoveHashTag }>#{ item }</span>) }
+                </div>
                 <input
                     type='text'
                     value={ hashTag }

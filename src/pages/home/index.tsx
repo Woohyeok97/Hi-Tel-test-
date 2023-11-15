@@ -1,9 +1,11 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 // components
 import PostForm from "components/post/PostForm"
 import PostItem from "components/post/PostItem"
 // 데이터 타입
 import { PostType } from "interface"
+
 
 const tempList = [
     {
@@ -28,22 +30,26 @@ const tempList = [
 
 export default function HomePage() {
     const [ postList, setPostList ] = useState<PostType[]>(tempList)
-
+    const [ test, setT ] = useState(false)
     return (
         <div className="page">
             <h1 className="page__title">초기화면</h1>
             <PostForm/>
 
             
-            <div className="page__header">게 / 시 / 물 / 광 / 장</div>
+            <div className="page__header">[ 게 / 시 / 물 / 광 / 장 ]</div>
             <div className="page__tabs">
-                <div className="page__tab page__tab--active">전체글</div>
+                <div className={`page__tab ${ test ? 'page__tab--active' : '' }`}
+                onClick={()=>{ setT((prev) => !prev) }}>{ test && '>' } 전체글</div>
                 <div className="page__tab">팔로윙</div>
             </div>
             
 
             <div className="page__">
-            { postList?.map((item) => <PostItem key={item?.uid}/>) }
+                { postList?.map((item) => 
+                <Link to={`/post/detail/${item?.id}`}>
+                    <PostItem key={item?.uid} post={ item }/>
+                </Link> )}
             </div>
         </div>
     )

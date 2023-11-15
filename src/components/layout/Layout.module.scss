@@ -1,5 +1,8 @@
+@import './utils';
+
 .layout {
     max-width: 680px;
     margin: 0 auto;
     min-height: 100vh;
+    padding: 0 20px;
 }
