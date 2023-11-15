@@ -14,7 +14,7 @@ interface RouterProps {
 }
 
 export default function Router({ isAuthenticated } : RouterProps) {
-    console.log(isAuthenticated)
+    
     return (
         <Routes>
             <Route path="/" element={ <HomePage/> }/>

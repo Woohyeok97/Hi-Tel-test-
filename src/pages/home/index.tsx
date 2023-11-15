@@ -31,12 +31,12 @@ const tempList = [
 export default function HomePage() {
     const [ postList, setPostList ] = useState<PostType[]>(tempList)
     const [ test, setT ] = useState(false)
+
     return (
         <div className="page">
             <h1 className="page__title">초기화면</h1>
             <PostForm/>
 
-            
             <div className="page__header">[ 게 / 시 / 물 / 광 / 장 ]</div>
             <div className="page__tabs">
                 <div className={`page__tab ${ test ? 'page__tab--active' : '' }`}
@@ -47,8 +47,8 @@ export default function HomePage() {
 
             <div className="page__">
                 { postList?.map((item) => 
-                <Link to={`/post/detail/${item?.id}`}>
-                    <PostItem key={item?.uid} post={ item }/>
+                <Link to={`/post/detail/${item?.id}`} key={item?.uid}>
+                    <PostItem post={ item }/>
                 </Link> )}
             </div>
         </div>

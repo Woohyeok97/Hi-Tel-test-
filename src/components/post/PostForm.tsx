@@ -1,8 +1,13 @@
 import styles from './Post.module.scss'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import AuthContext from 'context/AuthContext'
+import { db } from 'firebaseApp'
+import { addDoc, collection } from 'firebase/firestore'
+
 
 
 export default function PostForm() {
+    const { user } = useContext(AuthContext)
     // 여러번 클릭방지 상태
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>(false)
     // 입력중인 해쉬태그
@@ -17,6 +22,39 @@ export default function PostForm() {
         setIsSubmitting(true)
         e.preventDefault()
 
+        // 로그인상태 유효성검사
+        if(!user?.uid) {   
+            console.log('접속이후 이용해주십시오.')
+            setIsSubmitting(false)
+            return
+        }
+        // content 유효성검사
+        if(!content) {
+            console.log('게시물 내용을 입력해주십시오.')
+            setIsSubmitting(false)
+            return
+        }
+        // 게시물 업로드
+        try {
+            const postsRef = collection(db, 'posts');
+            // 'posts' 콜렉션에 추가할 객체
+            const insertPost = {
+                uid : user?.uid,
+                email : user?.email,
+                content : content,
+                hashTag : hashTagList,
+                createdAt : new Date().toLocaleDateString("ko", {
+                    hour : '2-digit',
+                    minute : '2-digit',
+                    second : '2-digit'
+                }),
+            }
+            await addDoc(postsRef, insertPost)
+            console.log('게시물을 작성하였습니다.')
+
+        } catch(err : any) {
+            console.log(err?.code)
+        }
         setIsSubmitting(false)
     }
 

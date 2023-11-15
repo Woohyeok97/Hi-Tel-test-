@@ -1,12 +1,14 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+import { GithubAuthProvider, GoogleAuthProvider, getAuth, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { app } from "firebaseApp"
 
 export default function LoginPage() {
     const [ email, setEmail ] = useState<string>('')
     const [ password, setPassword ] = useState<string>('')
     const navigate = useNavigate()
+
+    
     // 가입요청 핸들러
     const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -22,6 +24,30 @@ export default function LoginPage() {
         }
     }
 
+    // 소셜로그인 핸들러
+    const handleSocialLogin = async (e : any) => {
+        const { name } = e?.target;
+
+        try {
+            const auth = getAuth(app);
+            let provider;
+
+            if(name === 'google') {
+                provider = new GoogleAuthProvider();
+            }
+            if(name === 'github') {
+                provider = new GithubAuthProvider();
+            }
+            // signInWithPopup()으로 소셜로그인
+            await signInWithPopup(auth, provider as GoogleAuthProvider | GithubAuthProvider)
+
+            navigate('/')
+            console.log('신규가입을 환영합니다.')
+
+        } catch(err : any) {
+            console.log(err?.code)
+        }
+    }
 
     // 폼데이터 핸들러
     const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
@@ -35,8 +61,6 @@ export default function LoginPage() {
         }
     }
 
-
-   
 
     return (
         <div className="page">
@@ -69,6 +93,17 @@ export default function LoginPage() {
                 <input type="submit" value="접속 요청" className="form__input-btn"
                     // 폼데이터값 중에 미입력이 있으면 비활성화
                     disabled={ !email || !password }/>
+
+                {/* 구글 로그인 */}
+                <button name="google" className="form__btn form__btn-google"
+                    onClick={ handleSocialLogin }>
+                    구글로 시작하기
+                </button>
+                {/* 깃헙 로그인 */}
+                <button name="github" className="form__btn form__btn-github"
+                    onClick={ handleSocialLogin }>
+                    깃허브로 시작하기
+                </button>
 
                 <div className="form__block">
                     <Link to="/users/signup" className="form__link">
