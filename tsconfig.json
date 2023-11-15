@@ -28,6 +28,7 @@
     "pages/*" : ["pages/*"],
     "components/*" : ["components/*"],
     "interface/*" : ["interface/*"],
+    "firebaseApp/*" : ["firebaseApp/*"],
     "font/*" : ["font/*"],
   }
 }
