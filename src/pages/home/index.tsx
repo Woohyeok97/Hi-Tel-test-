@@ -26,14 +26,18 @@ export default function HomePage() {
         
         // onSnapshot으로 실시간 리스너 부착
         onSnapshot(postListQuery, (snpashot) => {
-            const resut = snpashot.docs.map((doc) => ({ id : doc?.id, ...doc?.data() }))
-            setPostList(resut as PostType[])
+            // 왜 타입에러가 나지;
+            // const result : PostType[] = snpashot.docs.map((doc) => ({ ...(doc?.data()), id : doc?.id }))
+            // setPostList(result)
+            const result = snpashot.docs.map((doc) => ({ id : doc?.id, ...doc?.data() }))
+            setPostList(result as PostType[])
         })
     }
 
     useEffect(() => {
         fetchPostList()
     }, [activeTab])
+    
 
     return (
         <div className="page">

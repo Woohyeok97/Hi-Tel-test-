@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom'
 import FollowBtn from 'components/followBtn/FollowBtn'
 // 데이터 타입
 import { PostType } from "interface"
+import { deleteDoc, doc } from 'firebase/firestore'
+import { db } from 'firebaseApp'
+import { useContext } from 'react'
+import AuthContext from 'context/AuthContext'
 
 
 interface PostItemProps {
@@ -11,10 +15,28 @@ interface PostItemProps {
 }
 
 export default function PostItem({ post } : PostItemProps) {
+    const { user } = useContext(AuthContext)
+
+    // 게시물 삭제 핸들러
+    const handlePostDelete = async () => {
+        const confirm = window.confirm('게시물을 삭제하겠습니까?')
+
+        if(confirm && post?.uid === user?.uid) {
+            try {
+                const postRef = doc(db, 'posts', post?.id)
+                await deleteDoc(postRef)
+    
+                console.log('게시물을 삭제했습니다.')
+            } catch(err : any) {
+                console.log(err?.code)
+            }
+        }
+    }
 
     return (
         <div className={ styles.post }>
             <div className={ styles.post__header }>
+                {/* 작성회원 프로필 */}
                 <div className={ styles.post__flex }>
                     <div className={ styles.post__userImg }></div>
                     <div>
@@ -26,13 +48,24 @@ export default function PostItem({ post } : PostItemProps) {
                         </div>
                     </div>
                 </div>
-                <FollowBtn/>
-            </div>
 
+                {/* 포스트 유틸 */}
+                { post?.uid === user?.uid && 
+                <div className={ styles.post__flex }>
+                    <div className={ styles.post__edit }>
+                        <Link to={`/post/edit/${post?.id}`}>편집</Link>
+                    </div>
+                    <div className={ styles.post__delete } onClick={ handlePostDelete }>삭제</div>
+                </div> }
+
+                {/* <FollowBtn/> */}
+            </div>
+            
+            {/* 게시물 내용 */}
             <Link to={`/post/detail/${post?.id}`}>
                 <div className={ styles.post__content }>{ post?.content }</div>
             </Link>
-
+            
             <div className={ styles.post__footer }>
                 <div className={ styles.post__flex }>
                     <span className={ styles.post__hashTag }>#아싸</span>
