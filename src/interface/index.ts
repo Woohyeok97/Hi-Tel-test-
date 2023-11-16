@@ -5,3 +5,7 @@ export interface PostType {
     createdAt : string,
     content : string,
 }
+
+export interface CommandActionType {
+    [key : string] : () => void | string | Promise<void>
+}

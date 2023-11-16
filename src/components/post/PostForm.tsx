@@ -81,8 +81,9 @@ export default function PostForm() {
 
     // 입력한 해쉬태그 hashTagList에 추가 핸들러
     const handleKeyUp = (e : any) => {
-        // e?.keyCode == 32일때 -> 스페이스바의 keyCode가 32임
-        if(hashTag?.trim() !== '' && e?.keyCode == 32) {
+        const SPACE_KEY_CODE = 32 // 스페이스바 keyCode가 32임
+        
+        if(hashTag?.trim() !== '' && e?.keyCode == SPACE_KEY_CODE) {
             // 예외처리 -> hashTagList 개수제한
             if(hashTagList.length >= 3) {
                 console.log('고마해라.')

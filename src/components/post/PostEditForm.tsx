@@ -1,19 +1,44 @@
 import styles from './Post.module.scss'
-import { useContext, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import AuthContext from 'context/AuthContext'
 import { db } from 'firebaseApp'
-import { addDoc, collection } from 'firebase/firestore'
+import { doc, onSnapshot, updateDoc } from 'firebase/firestore'
+import { useNavigate, useParams } from 'react-router-dom'
+import { PostType } from 'interface'
+
 
 export default function PostEditForm() {
     const { user } = useContext(AuthContext)
+    const { id } = useParams()
     // 여러번 클릭방지 상태
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>(false)
     // 입력중인 해쉬태그
     const [ hashTag, setHashTag ] = useState<string>('')
-
+    // 수정할 게시물
+    const [ prevPost, setPrevPost ] = useState<PostType | null>(null)
     const [ content, setContent ] = useState<string>('')
     const [ hashTagList, setHashTagList ] = useState<string[]>([])
-    
+    const navigate = useNavigate()
+
+
+    // 수정할 게시물 가져오기
+    const fetchPost = useCallback(async () => {
+        if(id && user?.uid) {
+            const postRef = doc(db, 'posts', id)
+            
+            onSnapshot(postRef, (doc) => {
+                // 로그인중인 유저의 게시물인지 유효성검사
+                if(doc?.data()?.uid !== user?.uid) {
+                    navigate('/')
+                    console.log('잘못된 접근입니다.')
+                    return
+                } 
+                setPrevPost({ id : doc?.id, ...doc?.data() } as PostType)
+                setContent(doc?.data()?.content)
+                setHashTagList(doc?.data()?.hashTag)
+            })
+        }
+    }, [id, user?.uid])
 
     // submit 핸들러
     const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
@@ -21,9 +46,10 @@ export default function PostEditForm() {
         e.preventDefault()
 
         // 로그인상태 유효성검사
-        if(!user?.uid) {   
-            console.log('접속이후 이용해주십시오.')
+        if(!user?.uid || user?.uid !== prevPost?.uid) {   
+            console.log('잘못된 접근입니다.')
             setIsSubmitting(false)
+            navigate('/')
             return
         }
         // content 유효성검사
@@ -32,26 +58,17 @@ export default function PostEditForm() {
             setIsSubmitting(false)
             return
         }
-        // 게시물 업로드
+        // 게시물 수정
         try {
-            const postsRef = collection(db, 'posts');
-            // 'posts' 콜렉션에 추가할 객체
-            const insertPost = {
-                uid : user?.uid,
-                email : user?.email,
+            const postsRef = doc(db, 'posts', prevPost?.id);
+            const updatePost = {
                 content : content,
                 hashTag : hashTagList,
-                createdAt : new Date().toLocaleDateString("ko", {
-                    hour : '2-digit',
-                    minute : '2-digit',
-                    second : '2-digit'
-                }),
             }
-            await addDoc(postsRef, insertPost)
+            await updateDoc(postsRef, updatePost)
 
-            setContent('')
-            setHashTagList([])
-            console.log('게시물을 작성하였습니다.')
+            navigate(`/post/detail/${prevPost?.id}`)
+            console.log('게시물을 편집하였습니다.')
 
         } catch(err : any) {
             console.log(err?.code)
@@ -79,8 +96,9 @@ export default function PostEditForm() {
 
     // 입력한 해쉬태그 hashTagList에 추가 핸들러
     const handleKeyUp = (e : any) => {
-        // e?.keyCode == 32일때 -> 스페이스바의 keyCode가 32임
-        if(hashTag?.trim() !== '' && e?.keyCode == 32) {
+        const SPACE_KEY_CODE = 32
+
+        if(hashTag?.trim() !== '' && e?.keyCode == SPACE_KEY_CODE) {
             // 예외처리 -> hashTagList 개수제한
             if(hashTagList.length >= 3) {
                 console.log('고마해라.')
@@ -94,10 +112,15 @@ export default function PostEditForm() {
                 return
             }
 
-            setHashTagList((prev) => [...prev, hashTag])
+            setHashTagList((prev) => [ ...prev, hashTag ])
             setHashTag('')
         }
     }
+
+    // 수정할 게시물 가져오기
+    useEffect(() => {
+        if(user?.uid) fetchPost()
+    }, [fetchPost, user?.uid])
 
 
     return (

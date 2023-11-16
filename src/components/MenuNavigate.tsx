@@ -1,4 +1,5 @@
 import AuthContext from "context/AuthContext"
+import { CommandActionType } from "interface"
 import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -7,14 +8,14 @@ const INITIALMESSAGE = '명령어 입력 또는 마우스클릭'
 
 export default function MenuNavigate() {
     const { user } = useContext(AuthContext)
-    const [ instruction, setInstruction ] = useState<string>('')
+    const [ command, setCommand ] = useState<string>('')
     const [ terminalMessage, setTerminalMessage ] = useState<string>(INITIALMESSAGE)
     const navigate = useNavigate()
 
     // 명령어 입력 핸들러
     const handleInstruction = (e : React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e?.target;
-        setInstruction(value.trim())
+        setCommand(value.trim())
     }
 
     // 로그아웃 핸들러
@@ -24,37 +25,36 @@ export default function MenuNavigate() {
             console.log('logout')
         }
     }
-
+    const commandAction : CommandActionType = {
+        'a' : () => navigate('/'),
+        'b' : () => user?.uid ? navigate(`/my/${user?.uid}`) : '접속이후 이용해주십시오.',
+        'c' : () => navigate('/search'),
+        'd' : () => user?.uid ? handleLogout() : navigate('/users/login'),
+    };
+    
     // 페이지 이동 핸들러
     const handleKeyOn = (e : any) => {
-        // instruction이 존재하고 키코드가 13일때(엔터키)
-        if(instruction !== '' && e?.keyCode === 13) {
-            // 간단한 대문자 or 소문자 비교를 위해 instruction을 소문자로 변환후 비교
-            const lowerIntruction = instruction.toLocaleLowerCase()
-            let message = INITIALMESSAGE
+        const ENTER_KEY_CODE = 13 // 엔터키 코드
+        let message = INITIALMESSAGE
 
-            if(lowerIntruction === 'a') {
-                navigate('/')
-            } else if(lowerIntruction === 'b') {
-                if(!user?.uid) {
-                    message = '접속이후 이용해주십시오.'
-                } else {
-                    navigate(`/my/${user?.uid}`)
-                }
-            } else if(lowerIntruction === 'c') {
-                navigate('/search')
-            } else if(lowerIntruction === 'd') {
-                if(!user?.uid) {
-                    navigate('/users/login')
-                } else {
-                    handleLogout()
-                }
-            } else {
-                message = '올바른 명령어를 입력해주십시오.'
-            }
+        if(command !== '' && e?.keyCode === ENTER_KEY_CODE) {
+            // 간단한 대문자 or 소문자 비교를 위해 instruction을 소문자로 변환후 비교
+            const lowerCommand = command.toLocaleLowerCase()
+            const action = commandAction[lowerCommand]
+             // 액션의 반환값이 문자라면
+            // if(action) {
+            //     console.log('gd')
+            // } else {
+
+            // }
+            // if(typeof(action()) === 'function') {
+            //     console.log('fun')
+            // }
             
+            
+
             setTerminalMessage(message)
-            setInstruction('')
+            setCommand('')
         } 
     }
 
@@ -90,7 +90,7 @@ export default function MenuNavigate() {
                 <div>{'명령어 입력 >> '}</div>
                 <input 
                     type="text"
-                    value={ instruction }
+                    value={ command }
                     onChange={ handleInstruction }
                     onKeyUp={ handleKeyOn }
                     placeholder={ terminalMessage }
