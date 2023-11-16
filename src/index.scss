@@ -145,3 +145,72 @@ h1 {
         background-color: $bgColor;
     }
 }
+
+// post
+.post {
+    padding : 20px;
+    margin: 20px 0;
+    border: $defaultBorder;
+    
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 20px;
+        border-bottom: $defaultBorder;
+    }
+
+    &__flex {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    &__user-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: $fontColor;
+    }
+    &__userName {
+
+    }
+    &__createdAt {
+
+    }
+    &__content {
+        padding: 20px 0;
+        border-bottom: $defaultBorder;
+    }
+    &__text {
+        margin-bottom: 40px;
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 20px;
+    }
+    &__hash-tag {
+        padding: 10px;
+        box-sizing: border-box;
+        margin-right: 10px;
+        border: 2px solid rgba(0, 0, 255, 1);
+        border-radius: 10px;
+    }
+    &__like {
+        cursor: pointer;
+    }
+    &__utils {
+        display: flex;
+    }
+    &__edit {
+        color: green;
+        cursor: pointer;
+    }
+    &__delete {
+        color: red;
+        cursor: pointer;
+    }
+}
+
+// comment

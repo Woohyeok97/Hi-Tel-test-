@@ -4,6 +4,7 @@ export interface PostType {
     email : string,
     createdAt : string,
     content : string,
+    hashTag? : string[],
 }
 
 export interface CommandActionType {
