@@ -2,7 +2,7 @@ import styles from './Post.module.scss'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import AuthContext from 'context/AuthContext'
 import { db } from 'firebaseApp'
-import { doc, onSnapshot, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import { useNavigate, useParams } from 'react-router-dom'
 import { PostType } from 'interface'
 
@@ -25,18 +25,17 @@ export default function PostEditForm() {
     const fetchPost = useCallback(async () => {
         if(id && user?.uid) {
             const postRef = doc(db, 'posts', id)
-            
-            onSnapshot(postRef, (doc) => {
-                // 로그인중인 유저의 게시물인지 유효성검사
-                if(doc?.data()?.uid !== user?.uid) {
-                    navigate('/')
-                    console.log('잘못된 접근입니다.')
-                    return
-                } 
-                setPrevPost({ id : doc?.id, ...doc?.data() } as PostType)
-                setContent(doc?.data()?.content)
-                setHashTagList(doc?.data()?.hashTag)
-            })
+            const result = await getDoc(postRef)
+
+            // 로그인중인 유저의 게시물인지 유효성검사
+            if(result?.data()?.uid !== user?.uid) {
+                navigate('/')
+                console.log('잘못된 접근입니다.')
+                return
+            }
+            setPrevPost({ id : result?.id, ...result?.data() } as PostType)
+            setContent(result?.data()?.content)
+            setHashTagList(result?.data()?.hashTag)
         }
     }, [id, user?.uid])
 
