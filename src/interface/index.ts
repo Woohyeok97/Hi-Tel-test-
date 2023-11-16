@@ -20,6 +20,11 @@ export interface CommentType {
     content : string,
 }
 
+// 팔로우 인터페이스
+export interface FollowType {
+    uid : string,
+}
+
 // 명령어 액션 인터페이스
 export interface CommandActionType {
     [key : string] : () => void | string | Promise<void>

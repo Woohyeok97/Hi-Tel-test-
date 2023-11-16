@@ -30,9 +30,9 @@ export default function CommentItem({ comment, post } : CommentItemProps) {
                 console.log(err?.code)
             }
         }
-        
     }
 
+    
     return (
         <div className="comment">
             {/* 코멘트유저 프로필 */}

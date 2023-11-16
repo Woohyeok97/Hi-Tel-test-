@@ -63,9 +63,11 @@ export default function PostDetailPage() {
         if(id) fetchPost()
     }, [fetchPost, id])
 
+
     return (
         <div className="page">
             <div className="page__header">[ 회 / 원 / 게 / 시 / 물 ]</div>
+            { post ? <>
             <div className="post">
                 <div className="post__header">
                     {/* 작성회원 프로필 */}
@@ -74,7 +76,8 @@ export default function PostDetailPage() {
                         <div className="post__name">글쓴이 : { post?.uid }</div>
                         <div className="post__created">날짜 : { post?.createdAt }</div>
                     </div>
-                    <FollowBtn/>
+                    {/* 팔로우 버튼 */}
+                    { post?.id && <FollowBtn post={ post }/> }
                 </div>
 
                 <div className="post__content">
@@ -83,9 +86,7 @@ export default function PostDetailPage() {
 
                     {/* 해쉬태그 */}
                     <div className="post__flex">
-                    { post?.hashTag?.map((item) => (
-                        <span key={item} id={item} className="post__hash-tag">#{ item }</span>)
-                    ) }
+                    { post?.hashTag?.map((item) => <span key={item} className="post__hash-tag">#{ item }</span>) }
                     </div>
                 </div>
 
@@ -102,7 +103,8 @@ export default function PostDetailPage() {
                     </div>
                 </div>
             </div>
-
+            
+            {/* 코멘트 */}
             <div>
                 <div className="page__header-sub">[ 덧 / 글 / 남 / 기 / 기 ]</div>
                 <CommentForm post={ post }/>
@@ -110,7 +112,9 @@ export default function PostDetailPage() {
                 { post?.comments?.map((item, i) => 
                     <CommentItem key={i} comment={ item } post={ post }/> 
                 )}
-            </div>
+            </div>  
+
+            </> : 'HI-TEL'}     
         </div>
     )
 }
