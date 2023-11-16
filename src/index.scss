@@ -14,12 +14,14 @@ body {
 
 textarea {
     font-family: $defaultFont;
+    font-size: $font1;
     border: none;
     resize: none;
     outline: none;
 }
 input {
     font-family: $defaultFont;
+    font-size: $font1;
     outline: none;
     border: none;
 }
@@ -67,6 +69,9 @@ h1 {
     &__header {
         font-size: $font4;
         text-align: center;
+        padding: 20px 0;
+        margin-bottom: 40px;
+        border-bottom: $defaultBorder;
     }
     &__tabs {
         display: flex;
@@ -89,6 +94,7 @@ h1 {
     }
 }
 
+// 폼
 .form {
 
     &__block {
@@ -108,3 +114,29 @@ h1 {
     }
 }
 
+// menu-navigate
+.menu-navigate {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-height: 120px;
+    max-width: inherit;
+    margin: 0 auto;
+    background-color: $bgColor;
+    z-index: 10;
+    @extend .shadow;
+    border-bottom: none;
+    
+    &__flex {
+        display: flex;
+        gap: 10px;
+    }
+    &__menu {
+
+    }
+    &__terminal {
+        color: $fontColor;
+        background-color: $bgColor;
+    }
+}

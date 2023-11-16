@@ -102,8 +102,6 @@ export default function PostEditForm() {
 
     return (
         <form onSubmit={ handleSubmit } className={ styles.postForm }>
-            <div className={ styles.postForm__header }>[ 게 / 시 / 물 / 작 / 성 ]</div>
-
             <div className={ styles.postForm__block }>
                 <textarea 
                     onChange={ handleContent }
