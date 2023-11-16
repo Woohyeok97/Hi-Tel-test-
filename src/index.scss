@@ -120,8 +120,12 @@ h1 {
     bottom: 0;
     left: 0;
     right: 0;
-    min-height: 120px;
+    min-height: 100px;
     max-width: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
     margin: 0 auto;
     background-color: $bgColor;
     z-index: 10;
@@ -131,6 +135,7 @@ h1 {
     &__flex {
         display: flex;
         gap: 10px;
+        padding-bottom: 10px;
     }
     &__menu {
 

@@ -31,40 +31,30 @@ export default function MenuNavigate() {
         if(instruction !== '' && e?.keyCode === 13) {
             // 간단한 대문자 or 소문자 비교를 위해 instruction을 소문자로 변환후 비교
             const lowerIntruction = instruction.toLocaleLowerCase()
-            
-            // 각각 A,B,C,D에 대한 url로 이동하고
-            // 만약 B,D(로그인필요)인 경우에는 추가 유효성검사
+            let message = INITIALMESSAGE
+
             if(lowerIntruction === 'a') {
-                setInstruction('')
-                setTerminalMessage(INITIALMESSAGE)
                 navigate('/')
             } else if(lowerIntruction === 'b') {
                 if(!user?.uid) {
-                    setInstruction('')
-                    setTerminalMessage('접속이후 이용해주십시오.')
+                    message = '접속이후 이용해주십시오.'
                 } else {
-                    setInstruction('')
-                    setTerminalMessage(INITIALMESSAGE)
                     navigate(`/my/${user?.uid}`)
                 }
             } else if(lowerIntruction === 'c') {
-                setInstruction('')
-                setTerminalMessage(INITIALMESSAGE)
                 navigate('/search')
             } else if(lowerIntruction === 'd') {
                 if(!user?.uid) {
-                    setInstruction('')
-                    setTerminalMessage(INITIALMESSAGE)
                     navigate('/users/login')
                 } else {
-                    setInstruction('')
-                    setTerminalMessage(INITIALMESSAGE)
                     handleLogout()
                 }
             } else {
-                setInstruction('')
-                setTerminalMessage('올바른 명령어를 입력해주십시오.')
+                message = '올바른 명령어를 입력해주십시오.'
             }
+            
+            setTerminalMessage(message)
+            setInstruction('')
         } 
     }
 
