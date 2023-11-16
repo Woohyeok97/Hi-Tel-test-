@@ -84,7 +84,6 @@ export default function FollowBtn({ post } : FollowBtnProps) {
         if(user?.uid) fetchFollowing()
     }, [fetchFollowing, user?.uid])
 
-    console.log(user?.uid)
 
     return (
         <> { user?.uid !== post?.uid && (isFollowing 
