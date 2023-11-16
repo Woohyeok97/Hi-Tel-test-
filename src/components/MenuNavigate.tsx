@@ -58,9 +58,11 @@ export default function MenuNavigate() {
         } 
     }
 
-    
+    const [v, setV] = useState(true)
+
     return (
-        <div className="menu-navigate">
+        <div className="menu-navigate" style={{ display : v ? 'block' : 'none' }}> 
+            <button onClick={()=>{ setV((prev) => !prev) }}>View</button>
             <div className="menu-navigate__flex">
                 <div className="menu-navigate__menu" onClick={() => navigate('/') }>
                     초기화면(A)

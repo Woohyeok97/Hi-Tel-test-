@@ -1,22 +1,20 @@
 import { useCallback, useContext, useEffect, useState } from "react"
 import AuthContext from "context/AuthContext"
 import { useParams } from "react-router-dom"
-// components
-import FollowBtn from "components/followBtn/FollowBtn"
-// 데이터 타입
-import { PostType } from "interface"
 import { arrayRemove, arrayUnion, doc, onSnapshot, updateDoc } from "firebase/firestore"
 import { db } from "firebaseApp"
+// components
+import FollowBtn from "components/followBtn/FollowBtn"
 import CommentForm from "components/comment/CommentForm"
 import CommentItem from "components/comment/CommentItem"
-
+// 데이터 타입
+import { PostType } from "interface"
 
 
 export default function PostDetailPage() {
     const { user } = useContext(AuthContext)
     const { id } = useParams()
     const [ post, setPost ] = useState<PostType | null>(null)
-    const [ isSubmitting, setIsSubmitting ] = useState<boolean>(false)
 
     // 게시물 가져오기
     const fetchPost = useCallback(async () => {
@@ -32,11 +30,8 @@ export default function PostDetailPage() {
 
     // 게시물 추천하기 & 취소하기 핸들러
     const handleLike = async () => {
-        setIsSubmitting(true)
-
         if(!user?.uid) {
             console.log('접속이후 이용해주십시오.')
-            setIsSubmitting(false)
             return
         }
 
@@ -62,18 +57,15 @@ export default function PostDetailPage() {
                 console.log(err?.code)
             }
         }
-        setIsSubmitting(false)
     }
 
     useEffect(() => {
         if(id) fetchPost()
     }, [fetchPost, id])
 
-
-
     return (
         <div className="page">
-            <div className="page__header">[ 게 / 시 / 물 / 광 / 장 ]</div>
+            <div className="page__header">[ 회 / 원 / 게 / 시 / 물 ]</div>
             <div className="post">
                 <div className="post__header">
                     {/* 작성회원 프로필 */}
@@ -99,10 +91,10 @@ export default function PostDetailPage() {
 
                 <div className="post__footer">
                     <div className="post__flex">
-                        <button className="post__like" onClick={ handleLike } disabled={ isSubmitting }>
+                        <div className="post__like" onClick={ handleLike }>
                             추천 : { post?.likeCount }
-                        </button>
-                        <div>덧글 : 0</div>
+                        </div>
+                        <div>덧글 : { post?.comments?.length }</div>
                     </div>
                     <div className="post__flex">
                         <div className="post__edit">편집</div>
@@ -111,11 +103,13 @@ export default function PostDetailPage() {
                 </div>
             </div>
 
-            <div className="comment">
-                <CommentForm/>
-                <CommentItem/>
-                <CommentItem/>
-                <CommentItem/>
+            <div>
+                <div className="page__header-sub">[ 덧 / 글 / 남 / 기 / 기 ]</div>
+                <CommentForm post={ post }/>
+                <div className="page__header-sub">[ 회 / 원 / 들 / 덧 / 글 ]</div>
+                { post?.comments?.map((item, i) => 
+                    <CommentItem key={i} comment={ item } post={ post }/> 
+                )}
             </div>
         </div>
     )

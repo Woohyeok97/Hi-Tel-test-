@@ -73,6 +73,12 @@ h1 {
         margin-bottom: 40px;
         border-bottom: $defaultBorder;
     }
+    &__header-sub {
+        font-size: $font2;
+        text-align: start;
+        padding: 20px 0;
+        margin-bottom: 20px;
+    }
     &__tabs {
         display: flex;
         gap: 20px; 
@@ -99,6 +105,23 @@ h1 {
 
     &__block {
         margin-bottom: 20px;
+    }
+    &__flex {
+        display: flex;
+    }
+    &__submit {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+    textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 10px;
+        box-sizing: border-box;
+        font-size: $font1;
+        color: $fontColor;
+        background-color: $bgColor;
+        border: $grayBorder;
     }
     &__input {
         width: 100%;
@@ -214,3 +237,33 @@ h1 {
 }
 
 // comment
+.comment {
+    padding : 20px;
+    margin: 20px 0;
+    border: $defaultBorder;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 20px;
+        border-bottom: $defaultBorder;
+    }
+    &__flex {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    &__user-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: $fontColor;
+    }
+    &__delete {
+        color: red;
+        cursor: pointer;
+    }
+    &__content {
+        padding-top: 20px;
+    }
+}
