@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom"
 import FollowBtn from "components/followBtn/FollowBtn"
 // 데이터 타입
 import { PostType } from "interface"
-import { doc, onSnapshot } from "firebase/firestore"
+import { arrayRemove, arrayUnion, doc, onSnapshot, updateDoc } from "firebase/firestore"
 import { db } from "firebaseApp"
 import CommentForm from "components/comment/CommentForm"
 import CommentItem from "components/comment/CommentItem"
@@ -16,6 +16,7 @@ export default function PostDetailPage() {
     const { user } = useContext(AuthContext)
     const { id } = useParams()
     const [ post, setPost ] = useState<PostType | null>(null)
+    const [ isSubmitting, setIsSubmitting ] = useState<boolean>(false)
 
     // 게시물 가져오기
     const fetchPost = useCallback(async () => {
@@ -28,6 +29,41 @@ export default function PostDetailPage() {
             })
         }
     }, [id])
+
+    // 게시물 추천하기 & 취소하기 핸들러
+    const handleLike = async () => {
+        setIsSubmitting(true)
+
+        if(!user?.uid) {
+            console.log('접속이후 이용해주십시오.')
+            setIsSubmitting(false)
+            return
+        }
+
+        if(post?.id) {
+            try {
+                const postRef = doc(db, 'posts', post?.id);
+                // 기존에 이미 로그인중인 유저가 추천을 했었다면 추천취소
+                if(post?.likes?.includes(user?.uid)) {
+                    await updateDoc(postRef, {
+                        likes : arrayRemove(user?.uid),
+                        likeCount : post?.likeCount ? post?.likeCount - 1 : 0
+                    })
+                    console.log('추천을 취소하였습니다.')
+                // 아니라면 게시물추천
+                } else {
+                    await updateDoc(postRef, {
+                        likes : arrayUnion(user?.uid),
+                        likeCount : post?.likeCount ? post?.likeCount + 1 : 1
+                    })
+                    console.log('게시물을 추천하였습니다.')
+                }
+            } catch(err : any) {
+                console.log(err?.code)
+            }
+        }
+        setIsSubmitting(false)
+    }
 
     useEffect(() => {
         if(id) fetchPost()
@@ -63,7 +99,9 @@ export default function PostDetailPage() {
 
                 <div className="post__footer">
                     <div className="post__flex">
-                        <div className="post__like">추천 : 0</div>
+                        <button className="post__like" onClick={ handleLike } disabled={ isSubmitting }>
+                            추천 : { post?.likeCount }
+                        </button>
                         <div>덧글 : 0</div>
                     </div>
                     <div className="post__flex">

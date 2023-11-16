@@ -5,6 +5,8 @@ export interface PostType {
     createdAt : string,
     content : string,
     hashTag? : string[],
+    likes? : string[],
+    likeCount : number,
 }
 
 export interface CommandActionType {
