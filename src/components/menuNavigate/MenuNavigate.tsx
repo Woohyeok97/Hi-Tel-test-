@@ -1,3 +1,4 @@
+import styles from './MenuNavigate.module.scss'
 import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import AuthContext from "context/AuthContext"
@@ -71,39 +72,38 @@ export default function MenuNavigate() {
         } 
     }
 
-    const [v, setV] = useState(true)
 
     return (
-        <div className="menu-navigate" style={{ display : v ? 'block' : 'none' }}> 
-            <button onClick={()=>{ setV((prev) => !prev) }}>View</button>
-            <div className="menu-navigate__flex">
-                <div className="menu-navigate__menu" onClick={()=>{ navigate('/') }}>
+        <div className={ styles.menuNavigate }> 
+            <div className={ styles.menuNavigate__flex }>
+                <div className={ styles.menuNavigate__menu } onClick={()=>{ navigate('/') }}>
                     초기화면(A)
                 </div>
-                <div className="menu-navigate__menu" 
+                <div className={ styles.menuNavigate__menu }
                     onClick={() => user?.uid ? navigate(`/profile/${user?.uid}`) : setTerminalMessage('접속이후 이용해주십시오.') }>
                     마이페이지(B)
                 </div>
-                <div className="menu-navigate__menu" onClick={() => navigate('/search') }>
+                <div className={ styles.menuNavigate__menu } onClick={() => navigate('/search') }>
                     검색(C)
                 </div>
 
                 {/* user?.uid에 따라 로그인/로그아웃 메뉴 렌더링 */}
                 { user?.uid 
-                ? <div className="menu-navigate__menu" onClick={ handleLogout }>접속종료(D)</div>
-                : <div className="menu-navigate__menu" onClick={() => navigate('/users/login') }>접속(D)</div> }
+                ? <div className={ styles.menuNavigate__menu } onClick={ handleLogout }>접속종료(D)</div>
+                : <div className={ styles.menuNavigate__menu } onClick={() => navigate('/users/login') }>접속(D)</div> }
             </div>
 
             {/* 명령어 인풋 */}
-            <div className="menu-navigate__flex">
-                <div>{'명령어 입력 >> '}</div>
+            <div className={ styles.menuNavigate__flex }>
+                <label htmlFor='command'>{'명령어 입력 >> '}</label>
                 <input 
                     type="text"
+                    id='command'
                     value={ command }
                     onChange={ handleInstruction }
                     onKeyUp={ handleKeyOn }
                     placeholder={ terminalMessage }
-                    className="menu-navigate__terminal"
+                    className={ styles.menuNavigate__terminal }
                 />
             </div>
         </div>

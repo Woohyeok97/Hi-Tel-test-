@@ -71,18 +71,19 @@ h1 {
 }
 
 
-
 // page
 .page {
-
-    &__title {
+    // 메뉴네비높이를 고려해서 설정
+    padding-bottom: 120px;
+    
+    &__header {
         padding: 20px;
         margin: 20px 0 40px;
         font-size: $font2;
         text-align: center;
         @extend .shadow;
     }
-    &__header {
+    &__title {
         font-size: $font4;
         text-align: center;
         padding: 20px 0;
@@ -149,37 +150,6 @@ h1 {
     }
 }
 
-// menu-navigate
-.menu-navigate {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    min-height: 100px;
-    max-width: inherit;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px;
-    margin: 0 auto;
-    background-color: $bgColor;
-    z-index: 10;
-    @extend .shadow;
-    border-bottom: none;
-    
-    &__flex {
-        display: flex;
-        gap: 10px;
-        padding-bottom: 10px;
-    }
-    &__menu {
-
-    }
-    &__terminal {
-        color: $fontColor;
-        background-color: $bgColor;
-    }
-}
 
 // post
 .post {
@@ -320,6 +290,7 @@ h1 {
         color: $fontColorSub;
     }
     &__edit {
+        text-decoration:underline;
         cursor: pointer;
     }
 
@@ -327,14 +298,19 @@ h1 {
         font-size: $font2;
         border-top: $defaultBorder;
         margin: 20px 0;
-
-        .active {
-            color: $fontColor;
-        }
     }
     &__tab {
         padding: 20px 0;
         color: $fontColorSub;
         cursor: pointer;
+        &:hover {
+            color: $fontColorSub-hover;
+        }
+    }
+    &__tab--active {
+        color: $fontColor;
+        &:hover {
+            color: $fontColor-hover;
+        }
     }
 }

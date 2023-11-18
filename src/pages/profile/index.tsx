@@ -31,7 +31,10 @@ export default function ProfilePage() {
     const { user } = useContext(AuthContext)
     const [ activeTab, setActiveTab ] = useState<ProfilePageTabType>("my")
     
-    
+    // 이제 로그인한 본인의 정보 or 다른유저의 정보에 따른 데이터바인딩 개발
+    // (다른유저 정보라면 팔로잉, 메시지 ui만들어서 렌더링)
+    // 초기 포스트리스트 가져오기
+    // 액티브탭별로 포스트리스트 렌더링하기
     return (
         <div className="page">
             <h1 className="page__title">프로필화면</h1>
@@ -71,16 +74,16 @@ export default function ProfilePage() {
                 {/* 게시물 탭 */}
                 <div className="profile__tabs">
                     <div className="profile__flex">
-                        <div className={`profile__tab ${activeTab === 'my' && 'active'}`} 
+                        <div className={`profile__tab ${activeTab === 'my' && 'profile__tab--active'}`} 
                             onClick={()=>{ setActiveTab('my') }}>작성 게시물</div>
-                        <div className={`profile__tab ${activeTab === 'likes' && 'active'}`}
+                        <div className={`profile__tab ${activeTab === 'likes' && 'profile__tab--active'}`}
                             onClick={()=>{ setActiveTab('likes') }}>추천한 게시물</div>
                     </div>
                 </div>
                 
                 {/* 게시물 목록 */}
                 <div>
-                { temp?.map((item) => <PostItem key={item?.id} post={item}/>) }
+                {/* { temp?.map((item) => <PostItem key={item?.id} post={item}/>) } */}
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 import styles from './Layout.module.scss'
-import MenuNavigate from "components/MenuNavigate"
+import MenuNavigate from "components/menuNavigate/MenuNavigate"
 
 interface LayoutProps {
     children : ReactNode,
