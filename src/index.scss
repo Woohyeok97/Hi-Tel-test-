@@ -293,7 +293,6 @@ h1 {
         text-decoration:underline;
         cursor: pointer;
     }
-
     &__tabs {
         font-size: $font2;
         border-top: $defaultBorder;
@@ -312,5 +311,41 @@ h1 {
         &:hover {
             color: $fontColor-hover;
         }
+    }
+}
+
+// search
+.search {
+
+    &__flex {
+        display: flex;
+        gap: 20px;
+    }
+    &__input {
+        color: $fontColor;
+        background-color: $bgColor;
+    }
+    &__tabs {
+        font-size: $font2;
+        border-top: $defaultBorder;
+        margin: 20px 0;
+    }
+    &__tab {
+        padding: 20px 0;
+        color: $fontColorSub;
+        cursor: pointer;
+        &:hover {
+            color: $fontColorSub-hover;
+        }
+    }
+    &__tab--active {
+        color: $fontColor;
+        &:hover {
+            color: $fontColor-hover;
+        }
+    }
+    &__no-result {
+        margin-top: 40px;
+        color: $fontColorSub;
     }
 }

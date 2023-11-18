@@ -83,7 +83,7 @@ export default function ProfilePage() {
                 
                 {/* 게시물 목록 */}
                 <div>
-                {/* { temp?.map((item) => <PostItem key={item?.id} post={item}/>) } */}
+                { temp?.map((item) => <PostItem key={item?.id} post={item}/>) }
                 </div>
             </div>
         </div>
