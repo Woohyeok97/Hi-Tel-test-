@@ -1,12 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 // pages
 import HomePage from "pages/home";
-import MyPage from "pages/my";
 import PostDetailPage from "pages/post/detail";
 import PostEditPage from "pages/post/edit";
 import SearchPage from "pages/search";
 import LoginPage from "pages/users/login";
 import SignupPage from "pages/users/signup";
+import ProfilePage from "pages/profile";
 
 
 interface RouterProps {
@@ -22,7 +22,7 @@ export default function Router({ isAuthenticated } : RouterProps) {
             <Route path="/search" element={ <SearchPage/> }/>
 
             { isAuthenticated && <>
-                <Route path="/my/:id" element={ <MyPage/> }/>
+                <Route path="/profile/:id" element={ <ProfilePage/> }/>
                 <Route path="/post/edit/:id" element={ <PostEditPage/> }/>
             </> }
             

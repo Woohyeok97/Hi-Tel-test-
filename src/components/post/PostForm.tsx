@@ -104,11 +104,10 @@ export default function PostForm() {
 
     
     return (
-        <form onSubmit={ handleSubmit } className={ styles.postForm }>
-            <div className={ styles.postForm__header }>[ 게 / 시 / 물 / 작 / 성 ]</div>
-
-            <div className={ styles.postForm__block }>
+        <form onSubmit={ handleSubmit } className="form">
+            <div className="form__block">
                 <textarea 
+                    id='content'
                     onChange={ handleContent }
                     value={ content }
                     spellCheck={false}
@@ -116,10 +115,10 @@ export default function PostForm() {
                 />
             </div>
             
-            <div className={ styles.postForm__block }>
-                <div className={ styles.postForm__flex }>
+            <div className="form__block">
+                <div className="form__flex">
                     { hashTagList?.length > 0 && hashTagList?.map((item) => 
-                    ( <span key={item} id={item} className={ styles.postForm__hashTag }
+                    ( <span key={item} id={item} className="hash-tag"
                     onClick={ handleRemoveHashTag }>#{ item }</span>) )}
                 </div>
                 <input
@@ -127,12 +126,12 @@ export default function PostForm() {
                     value={ hashTag }
                     onChange={ handleHashTag }
                     onKeyUp={ handleKeyUp }
-                    className={ styles.postForm__input } 
+                    className="form__input"
                     placeholder='> 해쉬태그 + 스페이스바 (최대 3개)'
                 />
             </div>
             
-            <input type="submit" value="글작성" className={ styles.postForm__btn } disabled={isSubmitting}/>
+            <input type="submit" value="글작성" className="form__input-btn" disabled={isSubmitting}/>
         </form>
     )
 }

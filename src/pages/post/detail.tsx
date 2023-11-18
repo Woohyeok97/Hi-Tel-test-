@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from "react"
 import AuthContext from "context/AuthContext"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { arrayRemove, arrayUnion, doc, onSnapshot, updateDoc } from "firebase/firestore"
 import { db } from "firebaseApp"
 // components
@@ -97,10 +97,13 @@ export default function PostDetailPage() {
                         </div>
                         <div>덧글 : { post?.comments?.length }</div>
                     </div>
+                    { post?.uid === user?.uid && 
                     <div className="post__flex">
-                        <div className="post__edit">편집</div>
+                        <div className="post__edit">
+                            <Link to={`/post/edit/${post?.id}`}>편집</Link>
+                        </div>
                         <div className="post__delete">삭제</div>
-                    </div>
+                    </div> }
                 </div>
             </div>
             

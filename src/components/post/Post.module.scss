@@ -1,67 +1,16 @@
 @import './utils';
 
-// post-form
-.postForm {
-
-    &__header {
-        font-size: $font4;
-        text-align: center;
-        margin: 20px 0;
-    }
-    &__block {
-        // border: $defaultBorder;
-        // padding: 10px 0;
-        // border-bottom: $defaultBorder;
-    }
-    &__flex {
-        display: flex;
-        gap: 10px;
-    }
-    textarea {
-        width: 100%;
-        min-height: 120px;
-        padding: 10px;
-        box-sizing: border-box;
-        font-size: $font1;
-        color: $fontColor;
-        background-color: $bgColor;
-        // border: $defaultBorder;
-        
-    }
-    &__input {
-        width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
-        font-size: $font1;
-        color: $fontColor;
-        background-color: $bgColor;
-    }
-    // &__hashTag {
-    //     padding: 10px;
-    //     margin-right: 10px;
-    //     border: 2px solid rgba(0, 0, 255, 1);
-    //     border-radius: 10px;
-    // }
-
-
-    &__btn {
-        padding : 20px;
-        @extend .shadow;
-    }
-}
-
-
 // post-item 
 .post {
     padding : 20px;
-    margin: 20px 0;
+    margin-bottom: 20px;
     border: $defaultBorder;
     
     &__header {
         display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
+        gap: 20px;
         padding-bottom: 20px;
+        margin-bottom: 20px;
         border-bottom: $defaultBorder;
     }
 
@@ -84,22 +33,22 @@
 
     }
     &__content {
-        padding: 30px 0;
-        border-bottom: $defaultBorder;
         cursor: pointer;
     }
-
+    &__text {
+        margin-bottom: 40px;
+    }
     &__footer {
         display: flex;
         justify-content: space-between;
         padding-top: 20px;
     }
     &__hashTag {
-        // padding: 10px;
-        // box-sizing: border-box;
-        // margin-right: 10px;
-        // border: 2px solid rgba(0, 0, 255, 1);
-        // border-radius: 10px;
+        padding: 10px;
+        box-sizing: border-box;
+        margin-right: 10px;
+        border: 3px solid rgba(0, 0, 255, 1);
+        border-radius: 10px;
     }
     &__utils {
         display: flex;

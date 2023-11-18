@@ -36,47 +36,87 @@ export default function PostItem({ post } : PostItemProps) {
     return (
         <div className={ styles.post }>
             <div className={ styles.post__header }>
-                {/* 작성회원 프로필 */}
-                <div className={ styles.post__flex }>
-                    <div className={ styles.post__userImg }></div>
-                    <div>
-                        <div className={ styles.post__userName }>
-                        글쓴이 : { post?.uid }
-                        </div>
-                        <div className={ styles.post__createdAt }>
-                            날짜 : { post?.createdAt }
-                        </div>
-                    </div>
+                <div className={ styles.post__userImg }></div>
+                <div>
+                    <div className="post__name">글쓴이 : { post?.uid }</div>
+                    <div className="post__created">날짜 : { post?.createdAt }</div>
                 </div>
-
-                {/* 포스트 유틸 */}
-                { post?.uid === user?.uid && 
-                <div className={ styles.post__flex }>
-                    <div className={ styles.post__edit }>
-                        <Link to={`/post/edit/${post?.id}`}>편집</Link>
-                    </div>
-                    <div className={ styles.post__delete } onClick={ handlePostDelete }>삭제</div>
-                </div> }
-
-                {/* <FollowBtn/> */}
             </div>
-            
-            {/* 게시물 내용 */}
+
             <Link to={`/post/detail/${post?.id}`}>
-                <div className={ styles.post__content }>{ post?.content }</div>
+            <div className={ styles.post__content }>
+                {/* 게시물 내용 */}
+                <div className={ styles.post__text }>{ post?.content }</div>
+
+                {/* 해쉬태그 */}
+                <div className={ styles.post__flex }>
+                { post?.hashTag?.map((item) => <span key={item} className={ styles.post__hashTag }>#{ item }</span>) }
+                </div>
+            </div>
             </Link>
-            
+
             <div className={ styles.post__footer }>
                 <div className={ styles.post__flex }>
-                    <span className={ styles.post__hashTag }>#아싸</span>
-                    <span className={ styles.post__hashTag }>#월드컵</span>
-                    <span className={ styles.post__hashTag }>#붉은악마</span>
+                    <div className="post__like">
+                        추천 : { post?.likeCount }
+                    </div>
+                    <div>덧글 : { post?.comments?.length }</div>
                 </div>
-                <div className={ styles.post__flex }> 
-                    <div>추천 : 0</div>
-                    <div>덧글 : 0</div>
-                </div>
+                { post?.uid === user?.uid && 
+                <div className={ styles.post__flex }>
+                    <div className="post__edit">
+                        <Link to={`/post/edit/${post?.id}`}>편집</Link>
+                    </div>
+                    <div className="post__delete">삭제</div>
+                </div> }
             </div>
         </div>
     )
+
+    // return (
+    //     <div className={ styles.post }>
+    //         <div className={ styles.post__header }>
+    //             {/* 작성회원 프로필 */}
+    //             <div className={ styles.post__flex }>
+    //                 <div className={ styles.post__userImg }></div>
+    //                 <div>
+    //                     <div className={ styles.post__userName }>
+    //                     글쓴이 : { post?.uid }
+    //                     </div>
+    //                     <div className={ styles.post__createdAt }>
+    //                         날짜 : { post?.createdAt }
+    //                     </div>
+    //                 </div>
+    //             </div>
+
+    //             {/* 포스트 유틸 */}
+    //             { post?.uid === user?.uid && 
+    //             <div className={ styles.post__flex }>
+    //                 <div className={ styles.post__edit }>
+    //                     <Link to={`/post/edit/${post?.id}`}>편집</Link>
+    //                 </div>
+    //                 <div className={ styles.post__delete } onClick={ handlePostDelete }>삭제</div>
+    //             </div> }
+
+    //             {/* <FollowBtn/> */}
+    //         </div>
+            
+    //         {/* 게시물 내용 */}
+    //         <Link to={`/post/detail/${post?.id}`}>
+    //             <div className={ styles.post__content }>{ post?.content }</div>
+    //         </Link>
+            
+    //         <div className={ styles.post__footer }>
+    //             <div className={ styles.post__flex }>
+    //                 <span className={ styles.post__hashTag }>#아싸</span>
+    //                 <span className={ styles.post__hashTag }>#월드컵</span>
+    //                 <span className={ styles.post__hashTag }>#붉은악마</span>
+    //             </div>
+    //             <div className={ styles.post__flex }> 
+    //                 <div>추천 : 0</div>
+    //                 <div>덧글 : 0</div>
+    //             </div>
+    //         </div>
+    //     </div>
+    // )
 }

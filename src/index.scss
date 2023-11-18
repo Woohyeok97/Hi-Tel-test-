@@ -53,6 +53,22 @@ h1 {
     // border-right: 3px solid gray;
     box-shadow: 2px 2px 0px 2px black inset;
 }
+.btn-text {
+    color: $fontColor;
+    background-color: $bgColor;
+    cursor: pointer;
+
+    &:hover {
+        color: white;
+    }
+}
+.hash-tag {
+    padding: 10px;
+    box-sizing: border-box;
+    margin-right: 10px;
+    border: 3px solid rgba(0, 0, 255, 1);
+    border-radius: 10px;
+}
 
 
 
@@ -81,7 +97,7 @@ h1 {
     }
     &__tabs {
         display: flex;
-        gap: 20px; 
+        gap: 20px;
     }
     &__tab {
         width: 100%;
@@ -102,7 +118,6 @@ h1 {
 
 // 폼
 .form {
-
     &__block {
         margin-bottom: 20px;
     }
@@ -116,12 +131,9 @@ h1 {
     textarea {
         width: 100%;
         min-height: 120px;
-        padding: 10px;
-        box-sizing: border-box;
         font-size: $font1;
         color: $fontColor;
         background-color: $bgColor;
-        border: $grayBorder;
     }
     &__input {
         width: 100%;
@@ -130,10 +142,10 @@ h1 {
         box-sizing: border-box;
         font-size: $font1;
         color: $fontColor;
-        background-color: $darkBule;
+        background-color: $bgColor;
     }
     &__input-btn {
-        
+        @extend .btn-text;
     }
 }
 
@@ -217,7 +229,7 @@ h1 {
         padding: 10px;
         box-sizing: border-box;
         margin-right: 10px;
-        border: 2px solid rgba(0, 0, 255, 1);
+        border: 3px solid rgba(0, 0, 255, 1);
         border-radius: 10px;
     }
     &__like {
@@ -265,5 +277,64 @@ h1 {
     }
     &__content {
         padding-top: 20px;
+    }
+}
+
+// profile 
+.profile {
+
+    &__block {
+        padding: 20px 0;
+    }
+    &__flex {
+        display: flex;
+        gap: 20px;
+    }
+    &__flex-between {
+        display: flex;
+        justify-content: space-between;
+        gap: 40px;
+    }
+    &__user-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background-color: $fontColor;
+    }
+    &__info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 3px;
+        align-items: center;
+        font-size: $font2;
+        cursor: pointer;
+    }
+    &__info-no {
+        color: $fontColorSub;
+    }
+    &__name {
+        font-size: $font2;
+    }
+    &__email {
+        color: $fontColorSub;
+    }
+    &__edit {
+        cursor: pointer;
+    }
+
+    &__tabs {
+        font-size: $font2;
+        border-top: $defaultBorder;
+        margin: 20px 0;
+
+        .active {
+            color: $fontColor;
+        }
+    }
+    &__tab {
+        padding: 20px 0;
+        color: $fontColorSub;
+        cursor: pointer;
     }
 }

@@ -37,7 +37,7 @@ export default function MenuNavigate() {
     // 명령어 액션객체
     const commandAction : CommandActionType = {
         'a' : () => navigate('/'),
-        'b' : () => user?.uid ? navigate(`/my/${user?.uid}`) : '접속이후 이용해주십시오.',
+        'b' : () => user?.uid ? navigate(`/profile/${user?.uid}`) : '접속이후 이용해주십시오.',
         'c' : () => navigate('/search'),
         'd' : () => user?.uid ? handleLogout() : navigate('/users/login'),
     };
@@ -81,7 +81,7 @@ export default function MenuNavigate() {
                     초기화면(A)
                 </div>
                 <div className="menu-navigate__menu" 
-                    onClick={() => user?.uid ? navigate(`/my/${user?.uid}`) : setTerminalMessage('접속이후 이용해주십시오.') }>
+                    onClick={() => user?.uid ? navigate(`/profile/${user?.uid}`) : setTerminalMessage('접속이후 이용해주십시오.') }>
                     마이페이지(B)
                 </div>
                 <div className="menu-navigate__menu" onClick={() => navigate('/search') }>

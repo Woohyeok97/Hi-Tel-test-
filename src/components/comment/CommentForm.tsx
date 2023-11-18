@@ -71,7 +71,7 @@ export default function CommentForm({ post } : CommentFormProps) {
             <div className="form__submit">
                 <input 
                     type="submit"
-                    value="덧글 남기기"
+                    value={`덧글 남기기`}
                     className="form__input-btn"
                 />
             </div>

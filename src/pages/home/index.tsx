@@ -41,6 +41,8 @@ export default function HomePage() {
     return (
         <div className="page">
             <h1 className="page__title">초기화면</h1>
+            
+            <div className="page__header">[ 게 / 시 / 물 / 작 / 성 ]</div>
             <PostForm/>
 
             <div className="page__header">[ 게 / 시 / 물 / 광 / 장 ]</div>
