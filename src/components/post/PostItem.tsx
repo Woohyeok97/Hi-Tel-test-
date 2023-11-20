@@ -35,6 +35,7 @@ export default function PostItem({ post } : PostItemProps) {
 
     return (
         <div className={ styles.post }>
+            <Link to={`/profile/${post?.uid}`}>
             <div className={ styles.post__header }>
                 <div className={ styles.post__userImg }></div>
                 <div>
@@ -42,6 +43,8 @@ export default function PostItem({ post } : PostItemProps) {
                     <div className="post__created">날짜 : { post?.createdAt }</div>
                 </div>
             </div>
+            </Link>
+            
 
             <Link to={`/post/detail/${post?.id}`}>
             <div className={ styles.post__content }>

@@ -21,8 +21,8 @@ export default function FollowBtn({ post } : FollowBtnProps) {
             const followingRef = doc(db, 'following', user?.uid)
             
             onSnapshot(followingRef, (doc) => {
-                const result = doc?.data()?.users?.map((item : FollowType) => item.uid)                
-                setIsFollowing(result.includes(post?.uid))
+                const result = doc?.data()?.users?.map((item : FollowType) => item.uid)              
+                if(result) setIsFollowing(result.includes(post?.uid))
             })
         }
     }, [user?.uid])

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GithubAuthProvider, GoogleAuthProvider, User, createUserWithEmailAndPassword, getAuth, signInWithPopup } from "firebase/auth";
 import { app, db } from "firebaseApp";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 
 export default function SignupPage() {
@@ -15,11 +15,10 @@ export default function SignupPage() {
 
 
     // member콜렉션 추가 함수
-    const createMember = async (userData : User) => {
+    const createProfile = async (userData : User) => {
         try {
-            const membersRef = collection(db, 'members')
-            const insertMember = {
-                uid : userData?.uid,
+            const membersRef = doc(db, 'profiles', userData?.uid)
+            const insertProfile = {
                 email : userData?.email,
                 displayName : userData?.displayName,
                 photoURL : userData?.photoURL,
@@ -29,13 +28,34 @@ export default function SignupPage() {
                     second : '2-digit',
                 }),
             }
-    
-            await addDoc(membersRef, insertMember)
+            await setDoc(membersRef, insertProfile)
+
         } catch(err : any) {
             console.log(err?.code)
             throw err
         }
     }
+    // const createProfile = async (userData : User) => {
+    //     try {
+    //         const membersRef = collection(db, 'profiles')
+    //         const insertProfile = {
+    //             uid : userData?.uid,
+    //             email : userData?.email,
+    //             displayName : userData?.displayName,
+    //             photoURL : userData?.photoURL,
+    //             createdAt : new Date().toLocaleDateString("ko", {
+    //                 hour : '2-digit',
+    //                 minute : '2-digit',
+    //                 second : '2-digit',
+    //             }),
+    //         }
+    //         await addDoc(membersRef, insertProfile)
+
+    //     } catch(err : any) {
+    //         console.log(err?.code)
+    //         throw err
+    //     }
+    // }
     
     // 가입요청 핸들러
     const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
@@ -46,7 +66,7 @@ export default function SignupPage() {
             const result = await createUserWithEmailAndPassword(auth, email, password)
 
             // 회원가입시, members콜렉션에 유저프로필데이터 저장
-            await createMember(result?.user)
+            await createProfile(result?.user)
 
             navigate('/')
             console.log('신규가입을 환영합니다.')
@@ -73,7 +93,7 @@ export default function SignupPage() {
             // signInWithPopup()으로 소셜로그인
             const result = await signInWithPopup(auth, provider as GoogleAuthProvider | GithubAuthProvider)
             // 회원가입시, members콜렉션에 유저프로필데이터 저장
-            await createMember(result?.user)
+            await createProfile(result?.user)
 
             navigate('/')
             console.log('신규가입을 환영합니다.')
