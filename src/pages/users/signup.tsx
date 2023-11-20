@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, signInWithPopup } from "firebase/auth";
+import { GithubAuthProvider, GoogleAuthProvider, User, createUserWithEmailAndPassword, getAuth, signInWithPopup } from "firebase/auth";
 import { app, db } from "firebaseApp";
-import { addDoc, collection, setDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 
 
 export default function SignupPage() {
@@ -13,6 +13,30 @@ export default function SignupPage() {
     const [ errMessage, setErrMessage ] = useState<string>('')
     const navigate = useNavigate()
 
+
+    // member콜렉션 추가 함수
+    const createMember = async (userData : User) => {
+        try {
+            const membersRef = collection(db, 'members')
+            const insertMember = {
+                uid : userData?.uid,
+                email : userData?.email,
+                displayName : userData?.displayName,
+                photoURL : userData?.photoURL,
+                createdAt : new Date().toLocaleDateString("ko", {
+                    hour : '2-digit',
+                    minute : '2-digit',
+                    second : '2-digit',
+                }),
+            }
+    
+            await addDoc(membersRef, insertMember)
+        } catch(err : any) {
+            console.log(err?.code)
+            throw err
+        }
+    }
+    
     // 가입요청 핸들러
     const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -22,19 +46,7 @@ export default function SignupPage() {
             const result = await createUserWithEmailAndPassword(auth, email, password)
 
             // 회원가입시, members콜렉션에 유저프로필데이터 저장
-            const membersRef = collection(db, 'members')
-            const insertMember = {
-                uid : result?.user?.uid,
-                email : result?.user?.email,
-                displayName : result?.user?.displayName,
-                photoURL : result?.user?.photoURL,
-                createdAt : new Date().toLocaleDateString("ko", {
-                    hour : '2-digit',
-                    minute : '2-digit',
-                    second : '2-digit',
-                }),
-            }
-            await addDoc(membersRef, insertMember)
+            await createMember(result?.user)
 
             navigate('/')
             console.log('신규가입을 환영합니다.')
@@ -59,7 +71,9 @@ export default function SignupPage() {
                 provider = new GithubAuthProvider();
             }
             // signInWithPopup()으로 소셜로그인
-            await signInWithPopup(auth, provider as GoogleAuthProvider | GithubAuthProvider)
+            const result = await signInWithPopup(auth, provider as GoogleAuthProvider | GithubAuthProvider)
+            // 회원가입시, members콜렉션에 유저프로필데이터 저장
+            await createMember(result?.user)
 
             navigate('/')
             console.log('신규가입을 환영합니다.')

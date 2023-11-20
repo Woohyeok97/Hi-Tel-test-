@@ -11,6 +11,16 @@ export interface PostType {
     comments? : CommentType[]
 }
 
+// // 유저프로필 인터페이스
+// export interface MemberType {
+//     id? : string,
+//     uid : string,
+//     email : string,
+//     displayName : string | null,
+//     photoURL : string | null,
+//     createdAt : string,
+// }
+
 // 코멘트 인터페이스
 export interface CommentType {
     id : string,
