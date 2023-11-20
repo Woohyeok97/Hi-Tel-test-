@@ -5,6 +5,8 @@ import { arrayRemove, arrayUnion, doc, onSnapshot, setDoc } from 'firebase/fires
 import { db } from 'firebaseApp'
 // 데이터 타입
 import { FollowType } from 'interface'
+// hooks
+import useNofitication from 'hooks/useNotification'
 
 interface FollowBtnProps {
     targetUid : string
@@ -14,6 +16,7 @@ interface FollowBtnProps {
 export default function FollowBtn({ targetUid } : FollowBtnProps) {
     const { user } = useContext(AuthContext)
     const [ isFollowing, setIsFollowing ] = useState(false)
+    const { createNotification } = useNofitication({ targetUid : targetUid })
 
     // 내가 팔로잉한 유저인지 확인로직
     const fetchFollowing = useCallback(async () => {
@@ -47,6 +50,10 @@ export default function FollowBtn({ targetUid } : FollowBtnProps) {
             await setDoc(followerRef, {
                 users : arrayUnion({ uid : user?.uid })
             })
+
+            // 팔로워 알림생성
+            await createNotification(`새로운 팔로워가 생겼습니다.`, `/profile/${user?.uid}`)
+
             console.log('팔로윙 하셨습니다.')  
         } catch(err : any) {
             console.log(err?.code)

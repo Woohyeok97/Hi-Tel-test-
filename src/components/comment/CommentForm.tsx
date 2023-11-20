@@ -4,15 +4,17 @@ import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "firebaseApp";
 // 데이터 타입
 import { PostType } from "interface";
+import useNofitication from "hooks/useNotification";
 
 
 interface CommentFormProps {
-    post : PostType | null
+    post : PostType
 }
 
 export default function CommentForm({ post } : CommentFormProps) {
     const { user } = useContext(AuthContext)
     const [ content, setContent ] = useState<string>('')
+    const { createNotification } = useNofitication({ targetUid : post?.uid })
 
     // 전송 핸들러
     const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
@@ -42,6 +44,10 @@ export default function CommentForm({ post } : CommentFormProps) {
                 await updateDoc(postRef, {
                     comments : arrayUnion(addComment),
                 })
+                // 알림생성(다른유저 작성시)
+                if(user?.uid !== post?.uid) {
+                    await createNotification(`회원님 게시물에 덧글이 달렸습니다.`, `/post/detail/${post?.id}`)
+                }
                 
                 setContent('')
                 console.log('덧글을 남겼습니다.')

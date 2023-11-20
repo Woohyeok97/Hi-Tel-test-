@@ -36,6 +36,7 @@ export interface FollowType {
 
 // 알림 인터페이스
 export interface NotificationType {
+    id : string,
     uid : string,
     content : string,
     createdAt : string,

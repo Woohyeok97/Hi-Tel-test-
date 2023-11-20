@@ -1,0 +1,38 @@
+@import './_utils.scss';
+
+.notiItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    border-bottom: $defaultBorder;
+    cursor: pointer;
+    &:hover {
+        color: $fontColor-hover;
+    }
+
+    &__content {
+        padding-bottom: 10px;
+    }
+    &__createdAt {
+        font-size: $font1;
+    }
+}
+
+.read {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $fontColorSub;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    border-bottom: $defaultBorder;
+
+    &__content {
+        padding-bottom: 10px;
+    }
+    &__createdAt {
+        font-size: $font1;
+    }
+}
