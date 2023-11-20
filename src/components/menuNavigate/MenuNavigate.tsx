@@ -91,6 +91,8 @@ export default function MenuNavigate() {
                 { user?.uid 
                 ? <div className={ styles.menuNavigate__menu } onClick={ handleLogout }>접속종료(D)</div>
                 : <div className={ styles.menuNavigate__menu } onClick={() => navigate('/users/login') }>접속(D)</div> }
+
+                <div className={ styles.menuNavigate__menu }>설정(E)</div>
             </div>
 
             {/* 명령어 인풋 */}

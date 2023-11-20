@@ -8,6 +8,7 @@ import LoginPage from "pages/users/login";
 import SignupPage from "pages/users/signup";
 import ProfilePage from "pages/profile";
 import ProfileEditPage from "pages/profile/edit";
+import NotifiCationPage from "pages/notification";
 
 
 interface RouterProps {
@@ -26,6 +27,7 @@ export default function Router({ isAuthenticated } : RouterProps) {
                 <Route path="/profile/:id" element={ <ProfilePage/> }/>
                 <Route path="/profile/edit/:id" element={ <ProfileEditPage/> }/>
                 <Route path="/post/edit/:id" element={ <PostEditPage/> }/>
+                <Route path="/notification/:id" element={ <NotifiCationPage/> }/>
             </> }
             
             {/* 나중에 부정으로 수정하기 */}

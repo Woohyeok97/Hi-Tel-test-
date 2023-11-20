@@ -45,13 +45,11 @@ export default function ProfilePage() {
             onSnapshot(followerRef, (doc) => {
                 const result = doc?.data()?.users?.map((item : FollowType) => ({ uid : item?.uid }))
                 // result가 없다면 빈배열 할당(0)
-                console.log(result, '팔로워')
                 setFollower(result || [])
             })
             onSnapshot(followingRef, (doc) => {
                 const result = doc?.data()?.users?.map((item : FollowType) => ({ uid : item?.uid }))
                 // result가 없다면 빈배열 할당(0)
-                console.log(result, '팔로잉')
                 setFollowing(result || [])
             })
         }

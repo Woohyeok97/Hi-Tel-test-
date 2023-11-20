@@ -15,7 +15,6 @@ export default function FollowBtn({ targetUid } : FollowBtnProps) {
     const { user } = useContext(AuthContext)
     const [ isFollowing, setIsFollowing ] = useState(false)
 
-    console.log(targetUid)
     // 내가 팔로잉한 유저인지 확인로직
     const fetchFollowing = useCallback(async () => {
         if(user?.uid) {

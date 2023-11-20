@@ -7,6 +7,7 @@ import PostForm from "components/post/PostForm"
 import PostItem from "components/post/PostItem"
 // 데이터 타입
 import { FollowType, PostType } from "interface"
+import { Link } from "react-router-dom"
 
 
 
@@ -81,7 +82,15 @@ export default function HomePage() {
 
     return (
         <div className="page">
-            <h1 className="page__header">초기화면</h1>
+            <div className="page__header">
+                <h1>초기화면</h1>
+                
+                { user?.uid &&
+                <div className="page__header-noti">
+                    <Link to={`/notification/${user?.uid}`}>알림</Link>
+                </div> }
+            </div>
+            
             
             <div className="page__title">[ 게 / 시 / 물 / 작 / 성 ]</div>
             <PostForm/>

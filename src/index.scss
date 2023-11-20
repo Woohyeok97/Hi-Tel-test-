@@ -81,11 +81,28 @@ h1 {
     }
     
     &__header {
+        position: relative;
         padding: 20px;
         margin: 20px 0 40px;
         font-size: $font2;
         text-align: center;
         @extend .shadow;
+
+        h1 { font-size: $font2; }
+
+        &-noti {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translate(0, -50%);
+            padding: 10px 20px;
+            cursor: pointer;
+            
+            &:hover {
+                color: $fontColor-hover;
+            }
+            
+        }
     }
     &__title {
         font-size: $font4;

@@ -34,6 +34,15 @@ export interface FollowType {
     uid : string,
 }
 
+// 알림 인터페이스
+export interface NotificationType {
+    uid : string,
+    content : string,
+    createdAt : string,
+    url? : string,
+    isRead : boolean,
+}
+
 // 명령어 액션 인터페이스
 export interface CommandActionType {
     [key : string] : () => void | string | Promise<void>
