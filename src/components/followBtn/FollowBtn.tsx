@@ -4,17 +4,18 @@ import AuthContext from 'context/AuthContext'
 import { arrayRemove, arrayUnion, doc, onSnapshot, setDoc } from 'firebase/firestore'
 import { db } from 'firebaseApp'
 // 데이터 타입
-import { FollowType, PostType } from 'interface'
+import { FollowType } from 'interface'
 
 interface FollowBtnProps {
-    post : PostType
+    targetUid : string
 }
 
 
-export default function FollowBtn({ post } : FollowBtnProps) {
+export default function FollowBtn({ targetUid } : FollowBtnProps) {
     const { user } = useContext(AuthContext)
     const [ isFollowing, setIsFollowing ] = useState(false)
 
+    console.log(targetUid)
     // 내가 팔로잉한 유저인지 확인로직
     const fetchFollowing = useCallback(async () => {
         if(user?.uid) {
@@ -22,7 +23,7 @@ export default function FollowBtn({ post } : FollowBtnProps) {
             
             onSnapshot(followingRef, (doc) => {
                 const result = doc?.data()?.users?.map((item : FollowType) => item.uid)              
-                if(result) setIsFollowing(result.includes(post?.uid))
+                if(result) setIsFollowing(result.includes(targetUid))
             })
         }
     }, [user?.uid])
@@ -33,16 +34,16 @@ export default function FollowBtn({ post } : FollowBtnProps) {
             console.log('접속이후 이용해주십시오.')
             return
         }
-        if(user?.uid === post?.uid) {
+        if(user?.uid === targetUid) {
             console.log('본인을 사랑하는 마음이 아름답습니다.')
             return
         }
         try {
             const followingRef = doc(db, 'following', user?.uid)
-            const followerRef = doc(db, 'follower', post?.uid)
+            const followerRef = doc(db, 'follower', targetUid)
 
             await setDoc(followingRef, {
-                users : arrayUnion({ uid : post?.uid })
+                users : arrayUnion({ uid : targetUid })
             })
             await setDoc(followerRef, {
                 users : arrayUnion({ uid : user?.uid })
@@ -59,16 +60,16 @@ export default function FollowBtn({ post } : FollowBtnProps) {
             console.log('접속이후 이용해주십시오.')
             return
         }
-        if(user?.uid === post?.uid) {
+        if(user?.uid === targetUid) {
             console.log('본인을 사랑하는 마음이 아름답습니다.')
             return
         }
         try {
             const followingRef = doc(db, 'following', user?.uid)
-            const followerRef = doc(db, 'follower', post?.uid)
+            const followerRef = doc(db, 'follower', targetUid)
 
             await setDoc(followingRef, {
-                users : arrayRemove({ uid : post?.uid })
+                users : arrayRemove({ uid : targetUid })
             })
             await setDoc(followerRef, {
                 users : arrayRemove({ uid : user?.uid })
@@ -86,7 +87,7 @@ export default function FollowBtn({ post } : FollowBtnProps) {
 
 
     return (
-        <> { user?.uid !== post?.uid && (isFollowing 
+        <> { user?.uid !== targetUid && (isFollowing 
         ? <div className={ styles.followBtn } onClick={ handleUnFollow }>팔로우</div>    
         : <div className={ styles.followBtn } onClick={ handleFollowing }>팔로윙</div> ) } </>   
     )

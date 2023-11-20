@@ -61,9 +61,9 @@ export default function PostItem({ post } : PostItemProps) {
             <div className={ styles.post__footer }>
                 <div className={ styles.post__flex }>
                     <div className="post__like">
-                        추천 : { post?.likeCount }
+                        추천 : { post?.likeCount || 0 }
                     </div>
-                    <div>덧글 : { post?.comments?.length }</div>
+                    <div>덧글 : { post?.comments?.length || 0 }</div>
                 </div>
                 { post?.uid === user?.uid && 
                 <div className={ styles.post__flex }>

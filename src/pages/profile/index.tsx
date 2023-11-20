@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import AuthContext from "context/AuthContext"
-import { app, db } from "firebaseApp"
+import { db } from "firebaseApp"
 import { collection, doc, getDoc, onSnapshot, orderBy, query, where } from "firebase/firestore"
 // components
 import FollowBtn from "components/followBtn/FollowBtn"
@@ -45,11 +45,13 @@ export default function ProfilePage() {
             onSnapshot(followerRef, (doc) => {
                 const result = doc?.data()?.users?.map((item : FollowType) => ({ uid : item?.uid }))
                 // result가 없다면 빈배열 할당(0)
+                console.log(result, '팔로워')
                 setFollower(result || [])
             })
             onSnapshot(followingRef, (doc) => {
                 const result = doc?.data()?.users?.map((item : FollowType) => ({ uid : item?.uid }))
                 // result가 없다면 빈배열 할당(0)
+                console.log(result, '팔로잉')
                 setFollowing(result || [])
             })
         }
@@ -107,7 +109,7 @@ export default function ProfilePage() {
         if(profile?.uid === user?.uid) fetchLikePostList()
     }, [fetchLikePostList, profile?.uid])
 
-    console.log('렌더링!')
+    // console.log('렌더링!')
     
     return (
         <div className="page">
@@ -144,7 +146,7 @@ export default function ProfilePage() {
                         <div className="profile__edit">
                             <Link to={`/profile/edit/${profile?.uid}`}>회원정보 편집</Link>
                         </div> : 
-                        <div>팔로우</div> }
+                        <FollowBtn targetUid={ profile?.uid }/> }
                         
                     </div>
                 </div>

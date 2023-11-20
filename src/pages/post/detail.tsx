@@ -77,7 +77,7 @@ export default function PostDetailPage() {
                         <div className="post__created">날짜 : { post?.createdAt }</div>
                     </div>
                     {/* 팔로우 버튼 */}
-                    { post?.id && <FollowBtn post={ post }/> }
+                    { post?.id && <FollowBtn targetUid={ post?.uid }/> }
                 </div>
 
                 <div className="post__content">
@@ -93,9 +93,9 @@ export default function PostDetailPage() {
                 <div className="post__footer">
                     <div className="post__flex">
                         <div className="post__like" onClick={ handleLike }>
-                            추천 : { post?.likeCount }
+                            추천 : { post?.likeCount || 0 }
                         </div>
-                        <div>덧글 : { post?.comments?.length }</div>
+                        <div>덧글 : { post?.comments?.length || 0 }</div>
                     </div>
                     { post?.uid === user?.uid && 
                     <div className="post__flex">

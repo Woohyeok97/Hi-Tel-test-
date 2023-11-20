@@ -75,6 +75,10 @@ h1 {
 .page {
     // 메뉴네비높이를 고려해서 설정
     padding-bottom: 120px;
+    &__flex {
+        display: flex;
+        gap: 20px;
+    }
     
     &__header {
         padding: 20px;
@@ -97,22 +101,22 @@ h1 {
         margin-bottom: 20px;
     }
     &__tabs {
-        display: flex;
-        gap: 20px;
+        font-size: $font2;
+        margin-top: -40px;
+        margin-bottom: 20px;
     }
     &__tab {
-        width: 100%;
-        padding: 5px 20px;
-        color: $bgColor;
-        background-color: $fontColor;
-        font-size: $font2;
-        text-align: center;
+        padding: 20px 0;
+        color: $fontColorSub;
         cursor: pointer;
-        // @extend .shadow-btn;
-
-        &--active {
-            // @extend .shadow-btn--active;
-            color: greenyellow;
+        &:hover {
+            color: $fontColorSub-hover;
+        }
+    }
+    &__tab--active {
+        color: $fontColor;
+        &:hover {
+            color: $fontColor-hover;
         }
     }
 }
