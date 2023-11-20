@@ -124,6 +124,7 @@ h1 {
     }
     &__flex {
         display: flex;
+        gap: 10px;
     }
     &__submit {
         display: flex;
@@ -137,10 +138,6 @@ h1 {
         background-color: $bgColor;
     }
     &__input {
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-        box-sizing: border-box;
         font-size: $font1;
         color: $fontColor;
         background-color: $bgColor;
@@ -292,6 +289,10 @@ h1 {
     &__edit {
         text-decoration:underline;
         cursor: pointer;
+
+        &:hover {
+            color: $fontColor-hover;
+        }
     }
     &__tabs {
         font-size: $font2;

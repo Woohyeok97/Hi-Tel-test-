@@ -7,6 +7,7 @@ import SearchPage from "pages/search";
 import LoginPage from "pages/users/login";
 import SignupPage from "pages/users/signup";
 import ProfilePage from "pages/profile";
+import ProfileEditPage from "pages/profile/edit";
 
 
 interface RouterProps {
@@ -23,6 +24,7 @@ export default function Router({ isAuthenticated } : RouterProps) {
 
             { isAuthenticated && <>
                 <Route path="/profile/:id" element={ <ProfilePage/> }/>
+                <Route path="/profile/edit/:id" element={ <ProfileEditPage/> }/>
                 <Route path="/post/edit/:id" element={ <PostEditPage/> }/>
             </> }
             

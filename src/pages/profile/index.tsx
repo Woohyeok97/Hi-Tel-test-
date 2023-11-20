@@ -37,7 +37,7 @@ export default function ProfilePage() {
     // 액티브탭별로 포스트리스트 렌더링하기
     return (
         <div className="page">
-            <h1 className="page__title">프로필화면</h1>
+            <h1 className="page__header">회원정보</h1>
 
             <div className="profile">
                 {/* 프로필사진 & 게시물,팔로우 정보 */}
@@ -66,7 +66,7 @@ export default function ProfilePage() {
                             <div className="profile__email">{ user?.email }</div>
                         </div>
                         <div className="profile__edit">
-                            <Link to={`/`}>회원정보 편집</Link>
+                            <Link to={`/profile/edit/${user?.uid}`}>회원정보 편집</Link>
                         </div>
                     </div>
                 </div>
