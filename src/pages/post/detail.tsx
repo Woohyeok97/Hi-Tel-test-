@@ -109,12 +109,13 @@ export default function PostDetailPage() {
             
             {/* 코멘트 */}
             <div>
-                <div className="page__header-sub">[ 덧 / 글 / 남 / 기 / 기 ]</div>
+                <div className="page__header-sub">[ 덧 글 남 기 기 ]</div>
                 <CommentForm post={ post }/>
-                <div className="page__header-sub">[ 회 / 원 / 들 / 덧 / 글 ]</div>
+
+                <div className="page__header-sub">[ 회 원 들 덧 글 ]</div>
                 { post?.comments?.map((item, i) => 
                     <CommentItem key={i} comment={ item } post={ post }/> 
-                )}
+                ) || <div>아직 덧글이 없습니다.</div> }
             </div>  
 
             </> : 'HI-TEL'}     
