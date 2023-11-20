@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, signInWithPopup } from "firebase/auth";
-import { app } from "firebaseApp";
+import { app, db } from "firebaseApp";
+import { addDoc, collection, setDoc } from "firebase/firestore";
 
 
 export default function SignupPage() {
@@ -18,7 +19,22 @@ export default function SignupPage() {
         
         try {
             const auth = getAuth(app)
-            await createUserWithEmailAndPassword(auth, email, password)
+            const result = await createUserWithEmailAndPassword(auth, email, password)
+
+            // 회원가입시, members콜렉션에 유저프로필데이터 저장
+            const membersRef = collection(db, 'members')
+            const insertMember = {
+                uid : result?.user?.uid,
+                email : result?.user?.email,
+                displayName : result?.user?.displayName,
+                photoURL : result?.user?.photoURL,
+                createdAt : new Date().toLocaleDateString("ko", {
+                    hour : '2-digit',
+                    minute : '2-digit',
+                    second : '2-digit',
+                }),
+            }
+            await addDoc(membersRef, insertMember)
 
             navigate('/')
             console.log('신규가입을 환영합니다.')
@@ -62,33 +78,33 @@ export default function SignupPage() {
         let errMessage = ''
         
         if(name === 'email') {
-            setEmail(value)
+            setEmail(value?.trim())
             
             if(!value?.match(validRegex)) {
                 errMessage = '이메일 형식으로 입력해주십시오.'
             } else if(password && password?.length < 8) {
                 errMessage = '비밀번호는 8자 이상으로 입력해주십시오.'
-            } else if(passwordConfirm && passwordConfirm !== value) {
+            } else if(passwordConfirm && passwordConfirm !== password) {
                 errMessage = '비밀번호를 확인해주십시오.'
             }
         }
         if(name === 'password') {
-            setPassword(value)
+            setPassword(value?.trim())
 
             if(value && value?.length < 8) {
                 errMessage = '비밀번호는 8자 이상으로 입력해주십시오.'
-            } else if(passwordConfirm && passwordConfirm !== value) {
+            } else if(passwordConfirm && passwordConfirm !== value?.trim()) {
                 errMessage = '비밀번호를 확인해주십시오.'
             } else if(email && !email?.match(validRegex)) {
                 errMessage = '이메일 형식으로 입력해주십시오.'
             }
         }
         if(name === 'passwordConfirm') {
-            setPasswordConfirm(value)
+            setPasswordConfirm(value?.trim())
             
             if(password && password?.length < 8) {
                 errMessage = '비밀번호는 8자 이상으로 입력해주십시오.'
-            } else if(password && password !== value) {
+            } else if(password && password !== value?.trim()) {
                 errMessage = '비밀번호를 확인해주십시오.'
             } else if(email && !email?.match(validRegex)) {
                 errMessage = '이메일 형식으로 입력해주십시오.'

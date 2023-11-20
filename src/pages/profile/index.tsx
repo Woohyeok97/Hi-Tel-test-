@@ -4,6 +4,8 @@ import AuthContext from "context/AuthContext"
 // components
 import FollowBtn from "components/followBtn/FollowBtn"
 import PostItem from "components/post/PostItem"
+import { getAuth } from "firebase/auth"
+import { app } from "firebaseApp"
 
 const temp = [
     {
@@ -31,10 +33,13 @@ export default function ProfilePage() {
     const { user } = useContext(AuthContext)
     const [ activeTab, setActiveTab ] = useState<ProfilePageTabType>("my")
     
+    // 그럼일단...회원가입할때 users 콜렉션에 유저데이터를 저장해야겠네..
     // 이제 로그인한 본인의 정보 or 다른유저의 정보에 따른 데이터바인딩 개발
     // (다른유저 정보라면 팔로잉, 메시지 ui만들어서 렌더링)
     // 초기 포스트리스트 가져오기
     // 액티브탭별로 포스트리스트 렌더링하기
+    const auth = getAuth(app)
+   
     return (
         <div className="page">
             <h1 className="page__header">회원정보</h1>
